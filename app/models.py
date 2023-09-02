@@ -5,11 +5,13 @@ from database import Base
 class Scene(Base):
     __tablename__ = "scene"
     scene_no = Column(Integer, primary_key=True, index=True)
+    scene_name = Column(String(50), nullable=False)
     background_image = Column(String(255), nullable=False)
     location = Column(String(50), nullable=False)
-    hint = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
 
     chats = relationship("Chat", back_populates="scene")
+    missions = relationship("Mission", back_populates="scene")
 
 class Chat(Base):
     __tablename__ = "chat"
@@ -20,3 +22,14 @@ class Chat(Base):
     message = Column(Text, nullable=False)
 
     scene = relationship("Scene", back_populates="chats")
+
+class Mission(Base):
+    __tablename__ = 'mission'
+
+    mission_no = Column(Integer, primary_key=True, autoincrement=True)
+    scene_no = Column(Integer, ForeignKey('scene.scene_no'))
+    mission_description = Column(Text)
+    mission_hint = Column(Text)
+
+    # scene_no 열과 scene 테이블 간의 관계 설정
+    scene = relationship('Scene', back_populates='missions')
