@@ -14,6 +14,6 @@ class DB_Settings(BaseSettings):
 
 # OpenAi
 class OPENAI_Settings(BaseSettings):
-    mytestkey: str = os.getenv("MYTESTKEY")
-    organization: str = os.getenv("ORGANIZATION_NAME")
-    organization_id: str = os.getenv("ORGANIZATION_ID")
+    openai_mytestkey: str = os.getenv("OPENAI_MYTESTKEY")
+    openai_organization: str = os.getenv("OPENAI_ORGANIZATION_NAME")
+    openai_organization_id: str = os.getenv("OPENAI_ORGANIZATION_ID")

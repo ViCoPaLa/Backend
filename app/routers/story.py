@@ -19,6 +19,3 @@ response
 @router.get("/{story_id}")
 async def get_story(db: Session = Depends(get_db), story_id: int = 1):
     return get_story(db, story_id)
-'''
-
-'''
