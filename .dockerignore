@@ -1,0 +1,4 @@
+.github
+.gitignore
+app/.env
+app/venv
