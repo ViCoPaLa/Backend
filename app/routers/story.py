@@ -16,11 +16,6 @@ response
         image string 메인 이미지 링크 “https://….png”
 '''
 
-# 특정 스토리 보기
-@router.get("/{story_id}")
-async def get_story(db: Session = Depends(get_db), story_id: int = 1):
-    return get_story(db, story_id)
-
 # 특정 scene 정보 가져오기
 @router.get("/{scene_no}", response_model=dict)
 async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
