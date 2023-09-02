@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, status
 from database import get_db
-from models import Book, BookInfo, BookReview
 from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/story", tags=["story"])
