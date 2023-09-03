@@ -6,9 +6,10 @@ from models import Scene, Chat, Mission
 from internal.schema import ChatRequest
 from internal.custom_exception import *
 from internal.genai import *
-from internal.prompt3 import *
-from internal.prompt4 import *
-from internal.prompt5 import *
+from prompts.prompt import *
+from prompts.prompt3 import *
+from prompts.prompt4 import *
+from prompts.prompt5 import *
 
 router = APIRouter(prefix="/story", tags=["story"])
 
@@ -98,10 +99,22 @@ async def send_chat(scene_no: int, chat_request: ChatRequest):
     elif scene_no == 5:
         prompt = sejong_scene_5_1 + sejong_scene_3_2 +  message + sejong_scene_3_2
     else:
-        prompt = sejong_scene_3_1 + sejong_scene_3_2 +  message + sejong_scene_3_3
+        prompt = sejong_scene_n_1 + sejong_scene_n_2 +  message + sejong_scene_n_3
 
-    
     new_message = await generate_text(prompt_text=prompt)
-    
 
-    return {"person": new_person, "image": image, "message": [new_message["content"]]}
+    basics_prompt = sejong_scene_3_11 + message + sejong_scene_3_12
+    basics = await generate_text(prompt_text=basics_prompt)
+    
+    return {"chat": {
+            "person": new_person, "image": image, "message": [new_message["content"]],
+        },
+        "basics": basics["content"]
+    }
+
+
+@router.get("/test")
+async def test():
+    prompt = sejong_scene_3_1 + sejong_scene_3_2 +  "안녕하세요" + sejong_scene_3_3
+    print(prompt)
+    return {"message": prompt}
