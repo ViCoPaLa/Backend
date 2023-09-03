@@ -3,6 +3,10 @@ from database import get_db
 from sqlalchemy.orm import Session
 from models import Scene, Chat, Mission
 
+from internal.schema import ChatRequest
+from internal.custom_exception import *
+from internal.genai import *
+
 router = APIRouter(prefix="/story", tags=["story"])
 
 # chat, scene, mission 정보 가져오기
@@ -37,25 +41,20 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
         "background_image": scene.background_image,
         "location": scene.location,
         "description": scene.description,
-        "mission": [],
+        "mission": {},
         "chats": []
     }
 
     # Mission 정보 가져오기
     try:
         mission = db.query(Mission).filter(Mission.scene_no == scene_no).first()
-        result["mission"].append({
+        result["mission"] = {
             "mission_no": mission.mission_no,
             "mission_description": mission.mission_description,
             "mission_hint": mission.mission_hint
-        })
+        }
     except:
-        mission = None
-        result["mission"].append({
-            "mission_no": None,
-            "mission_description": None,
-            "mission_hint": None
-        })
+        pass
 
     for chat in chats:
         if len(result["chats"]) == 0:
@@ -76,3 +75,20 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
             result["chats"][-1]["message"].append(chat.message)
 
     return result
+
+# 채팅 정보 저장하기
+@router.post("/{scene_no}/chat",
+            )
+async def send_chat(scene_no: int, chat_request: ChatRequest):
+
+    person: str = chat_request.person
+    image: str = "db에서 정보 가져오기"
+    message: str = chat_request.message
+    
+    print(person, message)
+
+    new_person = "새로운 사람"
+    prompt = new_person + " " + "이전에 말한 사람은" + person + ", 그가 한 말은 " + message
+    new_message = await generate_text(prompt_text=prompt)
+    
+    return {"person": new_person, "image": image, "chat": new_message}

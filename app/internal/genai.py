@@ -23,7 +23,9 @@ async def generate_images(prompt_text, n=1, size="512x512"):
     return response
 
 async def generate_text(prompt_text, n=1, max_tokens=64, temperature=0.5, top_p=1, frequency_penalty=0, presence_penalty=0, stop=["\n"]):
-        
+
+    response = "GPT에 의해 생성되는 새로운 채팅이 추후 response될 예정"
+    '''
     response = openai.Completion.create(
         model="gpt-4",
         prompt=prompt_text,
@@ -35,6 +37,7 @@ async def generate_text(prompt_text, n=1, max_tokens=64, temperature=0.5, top_p=
         stop=stop,
         n=n
     )
+    '''
     return response
 
 
