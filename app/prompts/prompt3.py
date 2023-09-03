@@ -36,12 +36,11 @@ sejong_scene_3_11 = """
 """
 
 sejong_scene_3_12 = """
-위 문장에서 언급된 제자 원리를 basics로 반환한다.
+위 문장에서 언급된 제자 원리를 아래의 기준에 맞춰 가장 근접한 기준에 맞는 정수값 하나만 반환한다.
+정수의 값은 다음과 같다.
 - 언급되지 않았을 경우: 0
 - 상형의 원리: 1
 - 가획의 원리: 2
 - 합용의 원리: 3
 
-답변 형식
-only one integer value that best fits the user's answer
 """

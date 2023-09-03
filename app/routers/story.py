@@ -11,6 +11,8 @@ from prompts.prompt3 import *
 from prompts.prompt4 import *
 from prompts.prompt5 import *
 
+import re
+
 router = APIRouter(prefix="/story", tags=["story"])
 
 # chat, scene, mission 정보 가져오기
@@ -105,11 +107,17 @@ async def send_chat(scene_no: int, chat_request: ChatRequest):
 
     basics_prompt = sejong_scene_3_11 + message + sejong_scene_3_12
     basics = await generate_text(prompt_text=basics_prompt)
+
     
+    match = re.search(r'\d+', basics["content"])
+    if match:
+        num = int(match.group())
+
     return {"chat": {
             "person": new_person, "image": image, "message": [new_message["content"]],
         },
-        "basics": basics["content"]
+        "basics": num,
+        "basic_result": basics["content"]
     }
 
 
