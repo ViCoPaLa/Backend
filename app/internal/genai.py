@@ -22,7 +22,7 @@ async def generate_images(prompt_text, n=1, size="512x512"):
     )
     return response
 
-async def generate_text(prompt_text, n=1, max_tokens=1000, temperature=0.5, top_p=1, frequency_penalty=0, presence_penalty=0, stop=["\n"]):
+async def generate_text(prompt_text, n=1, max_tokens=300, temperature=0.5, top_p=1, frequency_penalty=0, presence_penalty=0, stop=["\n"]):
 
     #response = "GPT에 의해 생성되는 새로운 채팅이 추후 response될 예정"
     
@@ -36,7 +36,7 @@ async def generate_text(prompt_text, n=1, max_tokens=1000, temperature=0.5, top_
         frequency_penalty=0.0
     )
 
-    return response
+    return response["choices"][0]["message"]
 
 '''
 # check model list

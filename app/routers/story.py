@@ -6,6 +6,7 @@ from models import Scene, Chat, Mission
 from internal.schema import ChatRequest
 from internal.custom_exception import *
 from internal.genai import *
+from internal.prompt import *
 
 router = APIRouter(prefix="/story", tags=["story"])
 
@@ -83,14 +84,12 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
 async def send_chat(scene_no: int, chat_request: ChatRequest):
 
     person: str = chat_request.person
-    image: str = "db에서 정보 가져오기"
     message: str = chat_request.message
-    
-    print(person, message)
 
-    new_person = "새로운 사람"
-    prompt = "배가 고픈데 무어을 먹을까요"
-    #prompt = new_person + " " + "이전에 말한 사람은" + person + ", 그가 한 말은 " + message
+    new_person = "학자 성삼문"
+    image: str = "https://user-images.githubusercontent.com/75142329/265226298-bcb436e5-2668-41b9-9378-f29e949310b4.png"
+
+    prompt = sejong_scene_1 + sejong_scene_1_1 +  message + sejong_scene_1_2
     new_message = await generate_text(prompt_text=prompt)
     
-    return {"person": new_person, "image": image, "chat": new_message}
+    return {"person": new_person, "image": image, "message": new_message["content"]}
