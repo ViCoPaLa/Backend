@@ -22,26 +22,21 @@ async def generate_images(prompt_text, n=1, size="512x512"):
     )
     return response
 
-async def generate_text(prompt_text, n=1, max_tokens=64, temperature=0.5, top_p=1, frequency_penalty=0, presence_penalty=0, stop=["\n"]):
+async def generate_text(prompt_text, n=1, max_tokens=1000, temperature=0.5, top_p=1, frequency_penalty=0, presence_penalty=0, stop=["\n"]):
 
-    response = "GPT에 의해 생성되는 새로운 채팅이 추후 response될 예정"
-    '''
-    response = openai.Completion.create(
+    #response = "GPT에 의해 생성되는 새로운 채팅이 추후 response될 예정"
+    
+    message=[{"role": "user", "content": prompt_text}]
+
+    response = openai.ChatCompletion.create(
         model="gpt-4",
-        prompt=prompt_text,
+        messages = message,
+        temperature=0.2,
         max_tokens=max_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        frequency_penalty=frequency_penalty,
-        presence_penalty=presence_penalty,
-        stop=stop,
-        n=n
+        frequency_penalty=0.0
     )
-    '''
+
     return response
-
-
-
 
 '''
 # check model list

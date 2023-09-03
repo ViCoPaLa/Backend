@@ -88,7 +88,8 @@ async def send_chat(scene_no: int, chat_request: ChatRequest):
     print(person, message)
 
     new_person = "새로운 사람"
-    prompt = new_person + " " + "이전에 말한 사람은" + person + ", 그가 한 말은 " + message
+    prompt = "배가 고픈데 무어을 먹을까요"
+    #prompt = new_person + " " + "이전에 말한 사람은" + person + ", 그가 한 말은 " + message
     new_message = await generate_text(prompt_text=prompt)
     
     return {"person": new_person, "image": image, "chat": new_message}
