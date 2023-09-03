@@ -72,5 +72,5 @@ jobs:
           -e OPENAI_ORGANIZATION_NAME=${{secrets.OPENAI_ORGANIZATION_NAME}} \
           -e OPENAI_ORGANIZATION_ID=${{secrets.OPENAI_ORGANIZATION_ID}} \
           -p 8080:8000 \
-          -d --name container_name ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
+          --name container_name ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
           echo "docker ps"
