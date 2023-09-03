@@ -42,7 +42,8 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
         "location": scene.location,
         "description": scene.description,
         "mission": {},
-        "chats": []
+        "chats": [],
+        "is_user_scene": scene.is_user_scene
     }
 
     # Mission 정보 가져오기

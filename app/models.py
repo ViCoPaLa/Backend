@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, ForeignKey,Boolean
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -9,6 +9,7 @@ class Scene(Base):
     background_image = Column(String(255), nullable=False)
     location = Column(String(50), nullable=False)
     description = Column(Text, nullable=False)
+    is_user_scene=Column(Boolean, default=False)
 
     chats = relationship("Chat", back_populates="scene")
     missions = relationship("Mission", back_populates="scene")
