@@ -30,12 +30,6 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
 
     db.close()
 
-    # Mission 정보 가져오기
-    try:
-        mission = db.query(Mission).filter(Mission.scene_no == scene_no).first()
-    except:
-        mission = None
-
     # 결과를 딕셔너리로 구성
     result = {
         "scene_no": scene.scene_no,
@@ -43,22 +37,42 @@ async def get_scene_and_chats(scene_no: int, db: Session = Depends(get_db)):
         "background_image": scene.background_image,
         "location": scene.location,
         "description": scene.description,
-        "chat": []
+        "mission": [],
+        "chats": []
     }
 
-    if mission is not None:
-        result["mission"] = {
+    # Mission 정보 가져오기
+    try:
+        mission = db.query(Mission).filter(Mission.scene_no == scene_no).first()
+        result["mission"].append({
             "mission_no": mission.mission_no,
             "mission_description": mission.mission_description,
             "mission_hint": mission.mission_hint
-        }
+        })
+    except:
+        mission = None
+        result["mission"].append({
+            "mission_no": None,
+            "mission_description": None,
+            "mission_hint": None
+        })
 
     for chat in chats:
-        result["chat"].append({
-            "chat_id": chat.chat_id,
-            "person": chat.person,
-            "profile": chat.profile,
-            "message": chat.message
-        })
+        if len(result["chats"]) == 0:
+            result["chats"].append({
+                "person": chat.person,
+                "image": chat.profile,
+                "message": []
+            })
+            result["chats"][0]["message"].append(chat.message)
+        elif chat.person == result["chats"][-1]["person"]:
+            result["chats"][-1]["message"].append(chat.message)
+        else:
+            result["chats"].append({
+                "person": chat.person,
+                "image": chat.profile,
+                "message": []
+            })
+            result["chats"][-1]["message"].append(chat.message)
 
     return result
