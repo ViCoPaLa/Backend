@@ -103,4 +103,5 @@ async def send_chat(scene_no: int, chat_request: ChatRequest):
     
     new_message = await generate_text(prompt_text=prompt)
     
-    return {"person": new_person, "image": image, "message": new_message["content"]}
+
+    return {"person": new_person, "image": image, "message": [new_message["content"]]}
