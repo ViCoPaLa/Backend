@@ -6,7 +6,9 @@ from models import Scene, Chat, Mission
 from internal.schema import ChatRequest
 from internal.custom_exception import *
 from internal.genai import *
-from internal.prompt import *
+from internal.prompt3 import *
+from internal.prompt4 import *
+from internal.prompt5 import *
 
 router = APIRouter(prefix="/story", tags=["story"])
 
@@ -89,7 +91,16 @@ async def send_chat(scene_no: int, chat_request: ChatRequest):
     new_person = "학자 성삼문"
     image: str = "https://user-images.githubusercontent.com/75142329/265226298-bcb436e5-2668-41b9-9378-f29e949310b4.png"
 
-    prompt = sejong_scene_1 + sejong_scene_1_1 +  message + sejong_scene_1_2
+    if scene_no == 3:
+        prompt = sejong_scene_3_1 + sejong_scene_3_2 +  message + sejong_scene_3_3
+    elif scene_no == 4:
+        prompt = sejong_scene_4_1 + sejong_scene_4_2 +  message + sejong_scene_4_3
+    elif scene_no == 5:
+        prompt = sejong_scene_5_1 + sejong_scene_3_2 +  message + sejong_scene_3_2
+    else:
+        prompt = sejong_scene_3_1 + sejong_scene_3_2 +  message + sejong_scene_3_3
+
+    
     new_message = await generate_text(prompt_text=prompt)
     
     return {"person": new_person, "image": image, "message": new_message["content"]}
